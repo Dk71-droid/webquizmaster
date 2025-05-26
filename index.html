@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Master</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <script src="quiz-multiuser.js"></script>
+  </head>
+  <body>
+    <div class="particles-container" id="particles"></div>
+    <header class="header">
+      <div class="container">
+        <div class="logo" onclick="goToDashboard()">
+          <i class="fas fa-graduation-cap"></i>
+          <span>Quiz Master</span>
+        </div>
+        <div class="user-info">
+          <div class="score-display">
+            <i class="fas fa-star"></i>
+            <span id="totalScore">0</span>
+          </div>
+          <div class="progress-ring">
+            <svg width="50" height="50" class="progress-svg">
+              <circle
+                cx="25"
+                cy="25"
+                r="20"
+                fill="none"
+                stroke="#e0e0e0"
+                stroke-width="5"
+              ></circle>
+              <circle
+                id="progress-circle"
+                cx="25"
+                cy="25"
+                r="20"
+                fill="none"
+                stroke-width="5"
+              ></circle>
+            </svg>
+            <span id="progressText" class="progress-text">0%</span>
+          </div>
+          <div class="settings-icon" onclick="showSettings()">
+            <i class="fas fa-cog"></i>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <section class="welcome-section" id="welcomeSection">
+        <div class="welcome-card">
+          <div class="welcome-icon">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <h1>Selamat Datang di Quiz Master</h1>
+          <p>Uji pengetahuan Anda melalui berbagai level yang menantang!</p>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <i class="fas fa-trophy"></i>
+              <span id="completedLevels" class="stat-number">0</span>
+              <span class="stat-label">Level Selesai</span>
+            </div>
+            <div class="stat-item">
+              <i class="fas fa-fire"></i>
+              <span id="streak" class="stat-number">0</span>
+              <span class="stat-label">Streak</span>
+            </div>
+            <div class="stat-item">
+              <i class="fas fa-clock"></i>
+              <span id="totalTime" class="stat-number">0m</span>
+              <span class="stat-label">Total Waktu</span>
+            </div>
+          </div>
+          <div class="menu-actions">
+            <a href="select-user.html" class="btn-primary">
+              <i class="fas fa-play"></i> Mulai Bermain
+            </a>
+            <a href="manage-questions.html" class="btn-primary">
+              <i class="fas fa-question-circle"></i> Kelola Soal
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <div class="modal hidden" id="settingsModal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Pengaturan</h2>
+            <button class="btn-close" onclick="closeSettings()">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <form id="settingsForm">
+            <div class="form-group">
+              <label for="questionTime">Waktu per Soal (detik):</label>
+              <input
+                type="number"
+                id="questionTime"
+                min="10"
+                max="60"
+                value="30"
+              />
+            </div>
+            <div class="form-group">
+              <label>
+                <input type="checkbox" id="showFeedback" checked />
+                Tampilkan Umpan Balik Jawaban
+              </label>
+            </div>
+            <div class="form-group">
+              <label>
+                <input type="checkbox" id="shuffleQuestions" checked />
+                Acak Urutan Soal
+              </label>
+            </div>
+            <div class="form-group">
+              <label>
+                <input type="checkbox" id="darkMode" />
+                Mode Gelap
+              </label>
+            </div>
+            <div class="form-group">
+              <div class="toggle-header" onclick="toggleLevelRepeats()">
+                <h3>Pengaturan Pengulangan Level</h3>
+                <i id="toggleIcon" class="fas fa-chevron-down"></i>
+              </div>
+              <div id="levelRepeatsSettings" class="hidden"></div>
+            </div>
+            <div class="modal-actions">
+              <button
+                type="button"
+                class="btn-secondary"
+                onclick="closeSettings()"
+              >
+                Batal
+              </button>
+              <button type="submit" class="btn-primary">Simpan</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <div class="toast-container" id="toastContainer"></div>
+  </body>
+</html>

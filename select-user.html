@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Master - Pilih Pengguna</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="particles" class="particles-container"></div>
+
+    <header class="header">
+      <div class="container">
+        <div class="logo">
+          <i class="fas fa-graduation-cap"></i>
+          <span>Quiz Master</span>
+        </div>
+        <div class="user-info">
+          <div class="score-display">
+            <i class="fas fa-star"></i>
+            <span id="totalScore">0</span>
+          </div>
+          <div class="progress-ring">
+            <svg width="50" height="50" class="progress-svg">
+              <circle
+                id="progress-circle"
+                cx="25"
+                cy="25"
+                r="20"
+                stroke-width="5"
+                fill="none"
+              />
+            </svg>
+            <span id="progressText" class="progress-text">0%</span>
+          </div>
+          <div class="settings-icon" onclick="showSettings()">
+            <i class="fas fa-cog"></i>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div class="container">
+        <section class="level-section" id="userSection">
+          <div class="section-header">
+            <h2>Pilih Pengguna</h2>
+            <p>
+              Pilih nama pengguna untuk memulai kuis atau tambah pengguna baru
+            </p>
+          </div>
+          <div id="userGrid" class="level-grid"></div>
+        </section>
+
+        <div class="modal hidden" id="addUserModal">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2>Tambah Pengguna Baru</h2>
+              <button class="btn-close" onclick="closeAddUserModal()">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+            <form id="addUserForm">
+              <div class="form-group">
+                <label for="userName">Nama Pengguna:</label>
+                <input type="text" id="userName" required />
+              </div>
+              <div class="form-actions">
+                <button
+                  type="button"
+                  class="btn-secondary"
+                  onclick="closeAddUserModal()"
+                >
+                  Batal
+                </button>
+                <button type="submit" class="btn-primary">Simpan</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <button
+          class="btn-primary"
+          id="addUserBtn"
+          style="position: fixed; bottom: 20px; right: 20px"
+        >
+          <i class="fas fa-plus"></i> Tambah Pengguna
+        </button>
+      </div>
+    </main>
+
+    <div class="modal hidden" id="settingsModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Pengaturan</h2>
+          <button class="btn-close" onclick="closeSettings()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <form id="settingsForm">
+          <div class="form-group">
+            <label for="questionTime">Waktu per Soal (detik):</label>
+            <input
+              type="number"
+              id="questionTime"
+              min="5"
+              max="60"
+              value="30"
+            />
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="showFeedback" checked />
+              Tampilkan Umpan Balik Jawaban
+            </label>
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="shuffleQuestions" checked />
+              Acak Urutan Soal
+            </label>
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="darkMode" />
+              Mode Gelap
+            </label>
+          </div>
+          <div class="form-group">
+            <div class="toggle-header" onclick="toggleLevelRepeats()">
+              <h3>Pengaturan Pengulangan Level</h3>
+              <i class="fas fa-chevron-down" id="toggleIcon"></i>
+            </div>
+            <div id="levelRepeatsSettings" class="hidden"></div>
+          </div>
+          <div class="modal-actions">
+            <button
+              type="button"
+              class="btn-secondary"
+              onclick="closeSettings()"
+            >
+              Batal
+            </button>
+            <button type="submit" class="btn-primary">Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="user-select.js"></script>
+    <script src="script.js"></script>
+    <script>
+      (function () {
+        function c() {
+          var b = a.contentDocument || a.contentWindow.document;
+          if (b) {
+            var d = b.createElement("script");
+            d.innerHTML =
+              "window.__CF$cv$params={r:'9453f9685b3c5c61',t:'MTc0ODE2NTAwOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+            b.getElementsByTagName("head")[0].appendChild(d);
+          }
+        }
+        if (document.body) {
+          var a = document.createElement("iframe");
+          a.height = 1;
+          a.width = 1;
+          a.style.position = "absolute";
+          a.style.top = 0;
+          a.style.left = 0;
+          a.style.border = "none";
+          a.style.visibility = "hidden";
+          document.body.appendChild(a);
+          if ("loading" !== document.readyState) c();
+          else if (window.addEventListener)
+            document.addEventListener("DOMContentLoaded", c);
+          else {
+            var e = document.onreadystatechange || function () {};
+            document.onreadystatechange = function (b) {
+              e(b);
+              "loading" !== document.readyState &&
+                ((document.onreadystatechange = e), c());
+            };
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>

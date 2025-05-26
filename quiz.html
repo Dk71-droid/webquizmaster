@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Master - Pilih Level</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="particles" class="particles-container"></div>
+
+    <header class="header">
+      <div class="container">
+        <div class="logo" onclick="goToDashboard()" style="cursor: pointer">
+          <i class="fas fa-graduation-cap"></i>
+          <span>Quiz Master</span>
+        </div>
+        <div class="user-info">
+          <div class="score-display">
+            <span id="currentUserName">Nama Pengguna</span>
+            <i class="fas fa-star"></i>
+            <span id="totalScore">0</span>
+          </div>
+          <div class="progress-ring">
+            <svg width="50" height="50" class="progress-svg">
+              <circle
+                id="progress-circle"
+                cx="25"
+                cy="25"
+                r="20"
+                stroke-width="5"
+                fill="none"
+              />
+            </svg>
+            <span id="progressText" class="progress-text">0%</span>
+          </div>
+          <div class="settings-icon" onclick="showSettings()">
+            <i class="fas fa-cog"></i>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div class="container">
+        <section class="level-section" id="levelSection">
+          <div class="section-header">
+            <h2>Pilih Level</h2>
+            <p>
+              Selesaikan level secara berurutan untuk membuka level berikutnya
+            </p>
+          </div>
+          <div id="levelGrid" class="level-grid"></div>
+        </section>
+
+        <button
+          class="btn-primary"
+          disabled
+          style="
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            pointer-events: none;
+            opacity: 0.6;
+          "
+        >
+          <i class="fas fa-book"></i> PILIH SOAL
+        </button>
+      </div>
+    </main>
+
+    <div class="modal hidden" id="quizModal">
+      <div class="modal-content">
+        <div class="quiz-header">
+          <div class="level-info">
+            <span class="level-badge" id="currentLevelBadge">Level 1</span>
+            <div class="quiz-timer">
+              <i class="fas fa-clock"></i>
+              <span id="timer">30s</span>
+            </div>
+          </div>
+          <div class="question-counter">
+            <span id="currentQuestion">1</span> /
+            <span id="totalQuestions">5</span>
+          </div>
+        </div>
+        <div class="question-card">
+          <h3 id="questionTitle">Pertanyaan akan muncul disini...</h3>
+          <div id="optionsGrid" class="options-grid"></div>
+        </div>
+        <div class="quiz-footer">
+          <button class="btn-secondary" onclick="closeQuiz()">
+            <i class="fas fa-sign-out-alt"></i> Keluar
+          </button>
+          <div class="quiz-progress">
+            <div class="progress-bar">
+              <div class="progress-fill" id="quizProgress"></div>
+            </div>
+          </div>
+          <div style="width: 120px"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal hidden" id="resultModal">
+      <div class="modal-content result-content">
+        <div class="result-icon" id="resultIcon">
+          <i class="fas fa-trophy"></i>
+        </div>
+        <h2 id="resultTitle">Selamat!</h2>
+        <p id="resultMessage">Anda berhasil menyelesaikan level ini!</p>
+        <div class="result-stats">
+          <div class="result-stat">
+            <span class="stat-value" id="levelScore">0</span>
+            <span class="stat-label">Skor</span>
+          </div>
+          <div class="result-stat">
+            <span class="stat-value" id="levelTime">0s</span>
+            <span class="stat-label">Waktu</span>
+          </div>
+          <div class="result-stat">
+            <span class="stat-value" id="levelAccuracy">0%</span>
+            <span class="stat-label">Akurasi</span>
+          </div>
+        </div>
+        <div class="result-actions">
+          <button class="btn-primary" onclick="closeResult()">
+            <i class="fas fa-arrow-left"></i> Kembali ke Level
+          </button>
+          <button
+            class="btn-primary"
+            id="nextLevelBtn"
+            onclick="startNextLevel()"
+          >
+            <i class="fas fa-arrow-right"></i> Level Berikutnya
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal hidden" id="settingsModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Pengaturan</h2>
+          <button class="btn-close" onclick="closeSettings()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <form id="settingsForm">
+          <div class="form-group">
+            <label for="questionTime">Waktu per Soal (detik):</label>
+            <input
+              type="number"
+              id="questionTime"
+              min="5"
+              max="60"
+              value="30"
+            />
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="showFeedback" checked />
+              Tampilkan Umpan Balik Jawaban
+            </label>
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="shuffleQuestions" checked />
+              Acak Urutan Soal
+            </label>
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="darkMode" />
+              Mode Gelap
+            </label>
+          </div>
+          <div class="form-group">
+            <div class="toggle-header" onclick="toggleLevelRepeats()">
+              <h3>Pengaturan Pengulangan Level</h3>
+              <i class="fas fa-chevron-down" id="toggleIcon"></i>
+            </div>
+            <div id="levelRepeatsSettings" class="hidden"></div>
+          </div>
+          <div class="form-group">
+            <button type="button" class="btn-logout" onclick="logout()">
+              Logout
+            </button>
+          </div>
+          <div class="modal-actions">
+            <button
+              type="button"
+              class="btn-secondary"
+              onclick="closeSettings()"
+            >
+              Batal
+            </button>
+            <button type="submit" class="btn-primary">Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="quiz-multiuser.js"></script>
+    <script>
+      (function () {
+        function c() {
+          var b = a.contentDocument || a.contentWindow.document;
+          if (b) {
+            var d = b.createElement("script");
+            d.innerHTML =
+              "window.__CF$cv$params={r:'9453f9b7ee66ea81',t:'MTc0ODE2NTAyMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+            b.getElementsByTagName("head")[0].appendChild(d);
+          }
+        }
+        if (document.body) {
+          var a = document.createElement("iframe");
+          a.height = 1;
+          a.width = 1;
+          a.style.position = "absolute";
+          a.style.top = 0;
+          a.style.left = 0;
+          a.style.border = "none";
+          a.style.visibility = "hidden";
+          document.body.appendChild(a);
+          if ("loading" !== document.readyState) c();
+          else if (window.addEventListener)
+            document.addEventListener("DOMContentLoaded", c);
+          else {
+            var e = document.onreadystatechange || function () {};
+            document.onreadystatechange = function (b) {
+              e(b);
+              "loading" !== document.readyState &&
+                ((document.onreadystatechange = e), c());
+            };
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>
